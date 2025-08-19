@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+
+        stage('Build Docker Images') {
+    steps {
+        sh 'docker compose version'
+        sh 'docker compose build --verbose'
+    }
+}
+
+        
         stage('Checkout') {
             steps {
                 checkout scm
