@@ -2,13 +2,16 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Build Docker Images') {
-    steps {
-        sh 'docker compose version'
-        sh 'docker compose build --verbose'
-    }
-}
+        stage('Build Backend Docker Images') {
+            steps {
+                sh 'docker compose build backend'
+            }
+        }
+        stage('Build Frontend Docker Images') {
+            steps {
+                sh 'docker compose build frontend'
+            }
+        }
 
         
         stage('Checkout') {
