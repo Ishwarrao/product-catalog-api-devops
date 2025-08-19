@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'product-catalog-api'
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -15,34 +10,27 @@ pipeline {
 
         stage('Build Docker Images') {
             steps {
-                script {
-                    bat 'docker-compose -f $DOCKER_COMPOSE_FILE build'
-                }
+                sh 'wsl docker compose build'
             }
         }
 
         stage('Run Unit Tests') {
             steps {
-                script {
-                    // Assuming you have a test target in your service, e.g., pytest for Flask backend
-                    bat 'docker-compose -f $DOCKER_COMPOSE_FILE run backend pytest'
-                }
+                sh 'wsl docker compose run backend pytest'
             }
         }
 
         stage('Push Docker Images') {
             steps {
-                script {
-                    // Add your DockerHub login and push logic if needed
-                    echo 'Push images to DockerHub or private registry here'
-                }
+                // Add your Docker Hub login & push commands here
+                echo 'Pushing images to registry (add implementation)'
             }
         }
     }
 
     post {
         always {
-            bat 'docker-compose -f $DOCKER_COMPOSE_FILE down'
+            sh 'wsl docker compose down'
         }
     }
 }
