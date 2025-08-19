@@ -16,7 +16,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    sh 'docker-compose -f $DOCKER_COMPOSE_FILE build'
+                    bat 'docker-compose -f $DOCKER_COMPOSE_FILE build'
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 script {
                     // Assuming you have a test target in your service, e.g., pytest for Flask backend
-                    sh 'docker-compose -f $DOCKER_COMPOSE_FILE run backend pytest'
+                    bat 'docker-compose -f $DOCKER_COMPOSE_FILE run backend pytest'
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker-compose -f $DOCKER_COMPOSE_FILE down'
+            bat 'docker-compose -f $DOCKER_COMPOSE_FILE down'
         }
     }
 }
